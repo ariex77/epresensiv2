@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('pengaturan_umum', function (Blueprint $table) {
             $table->string('domain_email')->nullable()->after('api_key');
+            $table->string('logo')->nullable()->after('domain_email');
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pengaturan_umum', function (Blueprint $table) {
+            $table->dropColumn('logo');
             $table->dropColumn('domain_email');
         });
     }

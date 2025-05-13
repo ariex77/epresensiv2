@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'index')->name('dashboard.index');
     });
-    Route::controller(RoleController::class)->group(function () {
+    Route::middleware('role:super admin')->controller(RoleController::class)->group(function () {
         Route::get('/roles', 'index')->name('roles.index');
         Route::get('/roles/create', 'create')->name('roles.create');
         Route::post('/roles', 'store')->name('roles.store');
@@ -75,7 +75,7 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::controller(Permission_groupController::class)->group(function () {
+    Route::middleware('role:super admin')->controller(Permission_groupController::class)->group(function () {
         Route::get('/permissiongroups', 'index')->name('permissiongroups.index');
         Route::get('/permissiongroups/create', 'create')->name('permissiongroups.create');
         Route::post('/permissiongroups', 'store')->name('permissiongroups.store');
@@ -85,7 +85,7 @@ Route::middleware('auth')->group(function () {
     });
 
 
-    Route::controller(PermissionController::class)->group(function () {
+    Route::middleware('role:super admin')->controller(PermissionController::class)->group(function () {
         Route::get('/permissions', 'index')->name('permissions.index');
         Route::get('/permissions/create', 'create')->name('permissions.create');
         Route::post('/permissions', 'store')->name('permissions.store');
@@ -94,7 +94,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/permissions/{id}/delete', 'destroy')->name('permissions.delete');
     });
 
-    Route::controller(UserController::class)->group(function () {
+    Route::middleware('role:super admin')->controller(UserController::class)->group(function () {
         Route::get('/users', 'index')->name('users.index');
         Route::get('/users/create', 'create')->name('users.create');
         Route::post('/users', 'store')->name('users.store');
