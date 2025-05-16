@@ -117,7 +117,7 @@ class KaryawanController extends Controller
                 'status_karyawan' => $request->status_karyawan,
                 'lock_location' => 1,
                 'status_aktif_karyawan' => 1,
-                'password' => Hash::make('12345')
+                'password' => Hash::make('12345678')
             ];
             $data = array_merge($data_karyawan, $data_foto);
             $simpan = Karyawan::create($data);

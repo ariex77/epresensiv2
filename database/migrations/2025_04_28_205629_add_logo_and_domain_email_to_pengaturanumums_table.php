@@ -23,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pengaturan_umum', function (Blueprint $table) {
-            $table->dropColumn('logo');
             $table->dropColumn('domain_email');
+            $table->dropColumn('logo');
         });
     }
 };

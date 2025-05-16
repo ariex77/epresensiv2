@@ -164,6 +164,8 @@ class PresensiController extends Controller
             return view('presensi.notif_jamkerja');
         }
 
+        $data['cabang'] = Cabang::all();
+
         $data['hariini'] = $hariini;
         $data['jam_kerja'] = $jamkerja;
         $data['lokasi_kantor'] = $lokasi_kantor;
@@ -212,7 +214,8 @@ class PresensiController extends Controller
 
         //Get Lokasi Kantor
         $cabang = Cabang::where('kode_cabang', $karyawan->kode_cabang)->first();
-        $lokasi_kantor = $cabang->lokasi_cabang;
+        // $lokasi_kantor = $cabang->lokasi_cabang;
+        $lokasi_kantor = $request->lokasi_cabang;
 
 
 
@@ -247,8 +250,8 @@ class PresensiController extends Controller
         $jam_mulai_masuk = $tanggal_presensi . " " . date('H:i', strtotime('-60 minutes', strtotime($jam_masuk)));
 
         //Jamulai Absen Pulang adalah 1 Jam dari Jam Masuk
-        $jam_mulai_pulang = $tanggal_presensi . " " . date('H:i', strtotime('+60 minutes', strtotime($jam_masuk)));
-
+        $jam_mulai_pulang =  date('Y-m-d H:i', strtotime('+60 minutes', strtotime($jam_masuk)));
+        //return $jam_mulai_pulang;
         $jam_pulang = $tanggal_pulang . " " . $jam_kerja->jam_pulang;
 
 
