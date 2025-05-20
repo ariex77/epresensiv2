@@ -523,6 +523,7 @@
                     // Membuat objek map
                     //alert(position.coords.latitude + "," + position.coords.longitude);
                     map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 18);
+                    //alert(position.coords.latitude + "," + position.coords.longitude);
                     // Mengambil lokasi kantor dari variabel $lokasi_kantor->lokasi_cabang
                     var lokasi_kantor = lokasi_cabang;
                     // Mengambil lokasi saat ini

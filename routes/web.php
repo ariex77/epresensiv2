@@ -23,6 +23,7 @@ use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WagatewayController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 
@@ -294,6 +295,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/facerecognition/{id}/delete', 'destroy')->name('facerecognition.delete');
 
         Route::get('/facerecognition/getwajah', 'getWajah')->name('facerecognition.getwajah');
+    });
+
+    Route::controller(WagatewayController::class)->group(function () {
+        Route::get('/wagateway', 'index')->name('wagateway.index')->can('wagateway.index');
     });
 });
 

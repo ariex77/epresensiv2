@@ -179,7 +179,14 @@
                  </ul>
              </li>
          @endif
-
+         @if (auth()->user()->hasAnyPermission(['wagateway.index']))
+             <li class="menu-item {{ request()->is(['wagateway', 'wagateway/*']) ? 'active' : '' }}">
+                 <a href="{{ route('wagateway.index') }}" class="menu-link">
+                     <i class="menu-icon tf-icons ti ti-brand-whatsapp"></i>
+                     <div>WA Gateway</div>
+                 </a>
+             </li>
+         @endif
      </ul>
  </aside>
  <!-- / Menu -->

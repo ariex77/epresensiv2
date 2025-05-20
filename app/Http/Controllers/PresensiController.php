@@ -295,7 +295,11 @@ class PresensiController extends Controller
                             Storage::put($file, $image_base64);
                         }
 
-
+                        //Kirim Notifikasi Ke WA
+                        if ($karyawan->no_hp != null || $karyawan->no_hp != "") {
+                            $message = "Terimakasih, Hari ini " . $karyawan->nama_karyawan . " absen masuk pada " . $jam_presensi . " Semagat Bekerja";
+                            $this->sendwa($karyawan->no_hp, $message);
+                        }
                         return response()->json(['status' => true, 'message' => 'Berhasil Absen Masuk', 'notifikasi' => 'notifikasi_absenmasuk'], 200);
                     } catch (\Exception $e) {
                         return response()->json(['status' => false, 'message' => $e->getMessage()], 400);
@@ -327,10 +331,13 @@ class PresensiController extends Controller
                                 'kode_jam_kerja' => $kode_jam_kerja,
                                 'status' => 'h'
                             ]);
-                            Storage::put($file, $image_base64);
                         }
-
-
+                        Storage::put($file, $image_base64);
+                        //Kirim Notifikasi Ke WA
+                        if ($karyawan->no_hp != null || $karyawan->no_hp != "") {
+                            $message = "Terimakasih, Hari ini " . $karyawan->nama_karyawan . " absen Pulang pada " . $jam_presensi . "Hati Hati di Jalan";
+                            $this->sendwa($karyawan->no_hp, $message);
+                        }
                         return response()->json(['status' => true, 'message' => 'Berhasil Absen Pulang', 'notifikasi' => 'notifikasi_absenpulang'], 200);
                     } catch (\Exception $e) {
                         return response()->json(['status' => false, 'message' => $e->getMessage()], 400);
@@ -340,6 +347,28 @@ class PresensiController extends Controller
         }
     }
 
+
+    function sendwa($no_hp, $message)
+    {
+        $generalsetting = Pengaturanumum::where('id', 1)->first();
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $generalsetting->domain_wa_gateway . '/send-message',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('message' => $message, 'number' => $no_hp, 'file_dikirim' => ''),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+    }
     public function edit(Request $request)
     {
         $nik = Crypt::decrypt($request->nik);
